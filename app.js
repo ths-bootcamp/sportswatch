@@ -35,6 +35,12 @@ const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 
+
+/**
+ * venue controllers route handler
+  */
+const venueController = require("./controllers/venue");
+
 /**
  * API keys and Passport configuration.
  */
@@ -86,19 +92,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.path === '/api/upload') {
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
+// app.use((req, res, next) => {
+//   res.locals.user = req.user;
+//   next();
+// });
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
@@ -135,6 +141,16 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+/**
+ * Venue routes
+ */
+app.get("/create", venueController.createVenue);
+app.post("/create", venueController.createVenue);
+app.get("/view", venueController.getVenue);
+app.get("/view/:id", venueController.viewVenue);
+app.post("/view/:id/edit", venueController.editVenue);
+app.post("/view/:id/delete", venueController.deleteVenue)
 
 /**
  * API examples routes.
