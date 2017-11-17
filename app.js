@@ -151,7 +151,13 @@ app.get("/view", venueController.getVenue);
 app.get("/view/:id", venueController.viewVenue);
 app.post("/view/:id/edit", venueController.editVenue);
 app.post("/view/:id/delete", venueController.deleteVenue)
-
+/**
+ * Review routes
+ */
+app.post('/makeReview/:id/:idUser',venueController.makeReview);
+app.get('/reviewList/:id',venueController.reviewList);
+app.post('/reviewEdit/:id/:idUser',venueController.reviewEdit);
+app.get('/reviewDelete/:id/:idUser',venueController.reviewDelete);
 /**
  * API examples routes.
  */

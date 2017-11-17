@@ -16,7 +16,7 @@ exports.createVenue = (req, res) => {
         //     username: req.user.username
         // }
 
-    })
+    });
 
 
     Venue.findOne({name: req.body.name}, (err, existingvenue) => {
@@ -73,3 +73,70 @@ exports.deleteVenue = (req, res) =>{
         }
     })
 }
+
+///////////////////////////////////////////////////////////////////////////
+  /////////////////////Review section///////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+exports.makeReview=(req,res)=>{
+    Venue.findOne({_id:req.params.id},function (err, venue) {
+        if (err) {
+            req.flash('errors', {msg: 'Something wrong Rating'})
+        }
+        console.log(req.body);
+        venue.reviews.push({rating:req.body.rating,description:req.body.description,user:req.params.idUser});
+        venue.save( function (err) {
+            if (err) { req.flash('errors', { msg: 'can not save' }); }
+
+            res.json({"result":"this is result after save the data!!"})
+        });
+    })
+};
+
+exports.reviewList = function(req,res){
+    Venue.findOne({
+        _id: req.params.id
+    })
+        // .populate('reviews.rating')
+        // .populate("reviews.user")
+        .select("reviews.rating reviews.user reviews.description")
+        .exec(
+            function(err, venue) {
+                if (err) res.status(500).send(err);
+
+                res.json(venue.reviews);
+            });
+};
+
+exports.reviewEdit = function (req, res) {
+    Venue.findOneAndUpdate(     {
+            _id: req.params.id,
+            "reviews.user":req.params.idUser
+        },
+        {
+            "$set": {
+                "reviews.$.rating":req.body.rating,
+                "reviews.$.description":req.body.description,
+            }
+        },{ new: true }, function (err,venueEdit) {
+
+            res.json({venueEdit:venueEdit,result:"ur done for editing!!"});
+        })
+};
+
+exports.reviewDelete = function (req, res) {
+    var user = req.params.idUser;
+    // Venue.findOne({_id:req.params.id}, function(err, venue){
+    //     console.log(venue.reviews, user);
+    //     venue.reviews.pull({rating: "5a0eb3233bab066d50735747"});
+    //     console.log(venue.reviews);
+    //     venue.save();
+    //     res.json({venue:venue, result:"now u delete the reviews"});
+    // });
+
+    Venue.update({_id:req.params.id},
+        {$pull: {reviews: {user: user}}}
+    ,function(){
+        res.json({ result:"now u delete the reviews"});
+
+    })
+};
