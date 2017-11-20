@@ -9,15 +9,21 @@ const photosSchema = new mongoose.Schema({
 })
 
 const reviewsSchema = new mongoose.Schema({
-    review:String,
-    author:{
-        id:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"User"
-        },
-        username:String
-    }
-})
+    rating:Number,
+    // user:{
+    //     id:{
+    //         type:mongoose.Schema.Types.ObjectId,
+    //         ref:"User"
+    //     },
+    //     username:String
+    // },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        unique: true
+    },
+    description:String
+});
 
 const venueSchema = new mongoose.Schema({
     name : { type: String, unique: true },
