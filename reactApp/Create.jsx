@@ -12,17 +12,18 @@ class Create extends Component {
     constructor(props){
         super(props);
         this.state = {
-            name:"hyd",
+            name:"",
             email:"",
-            phone:9080706050
+            phone:""
         };
         this.updateStateEmail = this.updateStateEmail.bind(this);
         this.createVenue = this.createVenue.bind(this);
     }
-    createVenue(e){
-        axios.post(`/api/venueCreate/`, this.state)
+    createVenue(){
+        axios.post(`/api/create/`, this.state)
             .then(res => {
-                this.props.updatemethod()
+                console.log(res)
+                // this.props.updatemethod()
             });
     }
 
@@ -43,6 +44,24 @@ class Create extends Component {
             <div>
                 <TextField type="text" value={this.state.email}
                            onChange = {this.updateStateEmail} />
+                <TextField
+                    name="name"
+                    placeholder="Name"
+                    helperText="Enter name"
+                    onChange={this.updateForm}
+                />
+                <TextField
+                    name="email"
+                    placeholder="Email"
+                    helperText="Enter email"
+                    onChange={this.updateForm}
+                />
+                <TextField
+                    name="address"
+                    placeholder="Address"
+                    helperText="Enter New Address"
+                    onChange={this.updateForm}
+                />
                 {/*<input type="text" value={this.state.phone}*/}
                 {/*onChange={this.updateStatePhone} />*/}
                 <Button type="submit" onClick={this.createVenue}> Submit</Button>

@@ -18,13 +18,14 @@ exports.createVenue = (req, res) => {
 
     });
 
-
-    Venue.findOne({name: req.body.name}, (err, existingvenue) => {
-        if (err) {
-            return next(err);
-        }else if(existingvenue){
-            return res.send("Venue with that name already exits");
-        }
+    console.log(req.body)
+    // Venue.findOne({name: req.body.name}, (err, existingvenue) => {
+    //
+    //     if (err) {
+    //         return next(err);
+    //     }else if(existingvenue){
+    //         return res.send("Venue with that name already exits");
+        // }
 
         venue.save((err, venue) => {
             if (err) {
@@ -34,7 +35,7 @@ exports.createVenue = (req, res) => {
                 // res.send("Venue created")
             }
         })
-    })
+    // })
 }
 
 exports.getVenue = (req, res) => {
@@ -83,7 +84,7 @@ exports.makeReview=(req,res)=>{
             req.flash('errors', {msg: 'Something wrong Rating'})
         }
         console.log(req.body);
-        venue.reviews.push({rating:req.body.rating,description:req.body.description,user:req.params.idUser});
+        venue.reviews.push({rating:req.body.rating,description:req.body.description});
         venue.save( function (err) {
             if (err) { req.flash('errors', { msg: 'can not save' }); }
 

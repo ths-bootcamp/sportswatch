@@ -22,10 +22,10 @@ class Update extends Component{
     updateVenue(e){
         var id=this.props.editValues._id;
 
-        axios.post(`/api/venueUpdate/`+id, this.state)
+        axios.post(`/api/view/`+id+`/edit/`, this.state)
             .then(res => {
-                console.log(res.data)
-                this.props.updatemethod()
+                // console.log(res.data)
+                // this.props.updatemethod()
             });
     }
 

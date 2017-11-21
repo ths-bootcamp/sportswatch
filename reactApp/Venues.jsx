@@ -30,10 +30,12 @@ class Venues extends Component {
 
 
     updatePage(){
-        axios.get(`/api/venueGet/`)
+        axios.get(`/api/view/`)
             .then(res => {
-                const posts = res.data.values
+                // console.log(res)
+                const posts = res.data
                 this.setState({posts:posts });
+                // console.log(posts);
             });
 
     }
@@ -50,10 +52,10 @@ class Venues extends Component {
         // this.state.editValues ? this.setState({editValues:null}) :this.setState({editValues:value})
     }
     deleteVenue(id){
-        axios.post(`/api/venueDelete/`+id)
+        axios.post(`/api/view/`+id+`/delete/`)
             .then(res => {
-                console.log(res.data)
-                this.updatePage()
+                // console.log(res.data)
+                // this.updatePage()
             });
     }
     editSport(ids){
@@ -64,7 +66,7 @@ class Venues extends Component {
         var my = {
             padding: 10,
         }
-
+        // console.log(this.state.posts);
         return (
             <div>
                 {/*{this.state.editValues ? <EditVenue editValues={this.state.editValues} updatemethod={this.updatePage}/>: null}*/}
@@ -137,7 +139,6 @@ class TableRow extends React.Component {
 
                         {/*type="submit" onClick={this.sendSportData}>*/}
                         {this.props.data.sports[j].name}
-                        ,
                     </span>)}
                 </div>
 

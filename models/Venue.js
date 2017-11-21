@@ -17,16 +17,16 @@ const reviewsSchema = new mongoose.Schema({
     //     },
     //     username:String
     // },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        unique: true
-    },
+    // user: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     unique: true
+    // },
     description:String
 });
 
 const venueSchema = new mongoose.Schema({
-    name : { type: String, unique: true },
+    name : { type: String},
     address: String,
     email: String,
     phone: Number,
