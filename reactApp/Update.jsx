@@ -49,9 +49,26 @@ class Update extends Component{
         return(
             <div>
                 <TextField
-                    label="email"
-                    id="email"
-                    type="text"  value={this.state.email} onChange = {this.updateStateEmail}/>
+                    name="name"
+                    placeholder="Name"
+                    helperText="Enter name"
+                    value={this.state.name}
+                    onChange={this.updateForm}
+                />
+                <TextField
+                    name="email"
+                    placeholder="Email"
+                    helperText="Enter email"
+                    value={this.state.email}
+                    onChange={this.updateForm}
+                />
+                <TextField
+                    name="address"
+                    placeholder="Address"
+                    helperText="Enter New Address"
+                    value={this.state.address}
+                    onChange={this.updateForm}
+                />
                 {/*<TextField label="sports" id="sports" type="text" onChange={this.updateStateSports}/>*/}
 
                 <Button type="submit" onClick={this.updateVenue}>Update</Button>

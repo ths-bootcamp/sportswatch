@@ -4,46 +4,42 @@ import axios from 'axios';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
-import { Switch, Route } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 
 
-class Create extends Component {
+class Create extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            name:"",
-            email:"",
-            phone:""
+
+        this.state={
+            createdSuccessfully:""
         };
-        this.updateStateEmail = this.updateStateEmail.bind(this);
-        this.createVenue = this.createVenue.bind(this);
-    }
-    createVenue(){
-        axios.post(`/api/create/`, this.state)
-            .then(res => {
-                console.log(res)
-                // this.props.updatemethod()
-            });
+        this.updateForm =this.updateForm.bind(this);
+        this.createvenue= this.createvenue.bind(this);
     }
 
-    updateStateEmail(e){
-        this.setState({email:e.target.value})
-        // debugger;
-        // console.log(e.target.value);
-        // console.log(this.state);
+    updateForm(e){
+        var obj ={};
+        obj[e.target.name] = e.target.value;
+        this.setState(obj, function(){
+
+        })
     }
-    // updateStatePhone(e){
-    //     this.setState({phone:e.target.value})
-    //     // debugger;
-    //     console.log(e.target.value);
-    //     console.log(this.state);
-    // }
+    createvenue(){
+        axios.post('api/create',{name:this.state.name,email:this.state.email,address:this.state.address})
+            .then(res=>{
+                console.log(res);
+                // this.props.venueList();
+                this.setState({createdSuccessfully:true});
+            })
+    }
+
     render(){
         return(
             <div>
-                <TextField type="text" value={this.state.email}
-                           onChange = {this.updateStateEmail} />
+                { !this.state.createdSuccessfully ?
+                <div>
                 <TextField
                     name="name"
                     placeholder="Name"
@@ -62,12 +58,13 @@ class Create extends Component {
                     helperText="Enter New Address"
                     onChange={this.updateForm}
                 />
-                {/*<input type="text" value={this.state.phone}*/}
-                {/*onChange={this.updateStatePhone} />*/}
-                <Button type="submit" onClick={this.createVenue}> Submit</Button>
-
+                <Button type="submit" onClick={this.createvenue} >ADD </Button>
+                </div>
+                     :
+                    <Redirect to='/' />
+                }
             </div>
-        )
+        );
     }
 }
 

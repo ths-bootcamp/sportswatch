@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 
 import axios from 'axios';
 import Button from 'material-ui/Button';
+import { Redirect } from 'react-router-dom'
 import TextField from 'material-ui/TextField';
 
 // import Venues from './Venues.jsx'
 import VenueCreate from './Create.jsx'
 import EditVenue from './Update.jsx'
+import ShowVenue from './Show.jsx'
 
 class Venues extends Component {
     constructor(props) {
@@ -16,12 +18,12 @@ class Venues extends Component {
 
         this.state = {
             posts: [],
+            showvenue:{}
             // sports:[]
         };
         this.updatePage = this.updatePage.bind(this);
         this.editVenue = this.editVenue.bind(this);
         this.deleteVenue = this.deleteVenue.bind(this);
-
     }
 
     componentDidMount() {
@@ -54,8 +56,7 @@ class Venues extends Component {
     deleteVenue(id){
         axios.post(`/api/view/`+id+`/delete/`)
             .then(res => {
-                // console.log(res.data)
-                // this.updatePage()
+                this.updatePage();
             });
     }
     editSport(ids){
@@ -86,7 +87,7 @@ class Venues extends Component {
                 {/*{this.state.sports.map((sport, i) => <TableRow key = {i}*/}
                 {/*data = {sport}*/}
                 {/*EditVenue={this.editVenue}*/}
-                {/*DeleteVenue={this.deleteVenue}*/}
+
                 {/*/>)}*/}
                 {/*</div>*/}
 
@@ -102,6 +103,9 @@ class Venues extends Component {
 class TableRow extends React.Component {
     constructor(props){
         super(props);
+        this.state={
+            ShowVenue:''
+        }
         this.sendEditData = this.sendEditData.bind(this);
         this.sendEditId = this.sendEditId.bind(this);
         this.sendSportData = this.sendSportData.bind(this);
@@ -117,7 +121,6 @@ class TableRow extends React.Component {
     sendSportData(){
         this.props.EditSport(this.props.data.sports.this._id);
     }
-
     render(){
         var my = {
             padding: 20,
@@ -128,24 +131,25 @@ class TableRow extends React.Component {
         }
         // console.log(this.props.data)
         return(
-            <div style={my}>
-                {/*<div>{this.props.data._id}</div>*/}
-                <div>Name: {this.props.data.name}</div>
-                <div>email: {this.props.data.email}</div>
-                <div>phone: {this.props.data.phone}</div>
-                <div>sports: {this.props.data.sports.map((sport, j) =>
-                    <span key={j}>
-                        {/*sportId = {this.props.data.sports[j]._id}*/}
+                    <div style={my} onClick={this.showVenue}>
+                        {/*<div>{this.props.data._id}</div>*/}
+                        <Link to={`venueshow/${this.props.data._id}`} ><div>Name: {this.props.data.name}</div></Link>
+                        <div>email: {this.props.data.email}</div>
+                        <div>phone: {this.props.data.phone}</div>
+                        <div>sports: {this.props.data.sports.map((sport, j) =>
+                            <span key={j}>
+                                {/*sportId = {this.props.data.sports[j]._id}*/}
 
-                        {/*type="submit" onClick={this.sendSportData}>*/}
-                        {this.props.data.sports[j].name}
-                    </span>)}
-                </div>
+                                {/*type="submit" onClick={this.sendSportData}>*/}
+                                {this.props.data.sports[j].name}
+                            </span>)}
+                        </div>
 
-                {/*<div>sports: {this.props.data.sports[i].name}</div>*/}
-                <Link to="/update_venue" onClick={this.sendEditData}>Update</Link>
-                <Button type="submit" onClick={this.sendEditId}>Delete</Button>
-            </div>
+                        {/*<div>sports: {this.props.data.sports[i].name}</div>*/}
+                        <Link to="/update_venue" onClick={this.sendEditData}>Update</Link>
+                        <Button type="submit" onClick={this.sendEditId}>Delete</Button>
+                    </div>
+
         )
     }
 }
