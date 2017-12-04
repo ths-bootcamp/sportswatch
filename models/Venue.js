@@ -40,8 +40,14 @@ const venueSchema = new mongoose.Schema({
             ref:"User"
         },
         username:String
-    }
-})
+    },
+    dates:[
+      {
+          type: mongoose.Schema.Types.ObjectId,
+            ref: "Date"
+      }
+    ]
+});
 
 const Venue = mongoose.model("Venue", venueSchema)
 
