@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const dateSchema = new mongoose.Schema({
-	isBooked: Boolean,
+	isBooked: { type: Boolean, default: false},
 	day: String,
 	user: {
 		id:{

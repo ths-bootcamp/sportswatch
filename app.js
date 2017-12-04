@@ -34,6 +34,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const dateController = require('./controllers/date');
 
 
 /**
@@ -162,7 +163,10 @@ app.get('/reviewDelete/:id/:idUser',venueController.reviewDelete);
  *
  * Time Slot routes
  */
-app.get('/view/:id/booked')
+//route to book slot
+app.post('/view/:id/bookSlots',dateController.bookSlot);
+//route to view booked slots
+app.get('/view/:id/viewSlots', dateController.viewSlots);
 
  /**
  *
