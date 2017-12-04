@@ -159,6 +159,15 @@ app.get('/reviewList/:id',venueController.reviewList);
 app.post('/reviewEdit/:id/:idUser',venueController.reviewEdit);
 app.get('/reviewDelete/:id/:idUser',venueController.reviewDelete);
 /**
+ *
+ * Time Slot routes
+ */
+app.get('/view/:id/booked')
+
+ /**
+ *
+ *
+ *
  * API examples routes.
  */
 app.get('/api', apiController.getApi);
